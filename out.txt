@@ -1,0 +1,185 @@
+total items 16050
+current page: 51, end page: 100
+breaking...
+result size: 0
+thread time 0
+current page: 251, end page: 300
+breaking...
+result size: 0
+thread time 0
+current page: 101, end page: 150
+breaking...
+result size: 0
+thread time 1
+current page: 401, end page: 450
+breaking...
+result size: 0
+thread time 1
+current page: 201, end page: 250
+breaking...
+result size: 0
+thread time 1
+current page: 451, end page: 500
+breaking...
+result size: 0
+thread time 1
+current page: 1, end page: 50
+current page: 351, end page: 400
+current page: 151, end page: 200
+breaking...
+result size: 5
+thread time 1
+current page: 352, end page: 400
+current page: 301, end page: 350
+current page: 2, end page: 50
+current page: 302, end page: 350
+current page: 353, end page: 400
+current page: 3, end page: 50
+current page: 303, end page: 350
+current page: 354, end page: 400
+current page: 4, end page: 50
+current page: 304, end page: 350
+current page: 355, end page: 400
+current page: 5, end page: 50
+current page: 356, end page: 400
+current page: 305, end page: 350
+current page: 6, end page: 50
+current page: 357, end page: 400
+current page: 306, end page: 350
+current page: 7, end page: 50
+current page: 358, end page: 400
+current page: 307, end page: 350
+current page: 8, end page: 50
+current page: 359, end page: 400
+current page: 308, end page: 350
+current page: 9, end page: 50
+current page: 360, end page: 400
+current page: 309, end page: 350
+current page: 10, end page: 50
+current page: 361, end page: 400
+current page: 310, end page: 350
+current page: 11, end page: 50
+current page: 311, end page: 350
+current page: 362, end page: 400
+current page: 312, end page: 350
+current page: 12, end page: 50
+current page: 363, end page: 400
+current page: 313, end page: 350
+current page: 13, end page: 50
+current page: 364, end page: 400
+current page: 314, end page: 350
+current page: 14, end page: 50
+current page: 315, end page: 350
+current page: 365, end page: 400
+current page: 316, end page: 350
+current page: 15, end page: 50
+current page: 366, end page: 400
+current page: 317, end page: 350
+current page: 16, end page: 50
+current page: 367, end page: 400
+current page: 318, end page: 350
+current page: 17, end page: 50
+current page: 368, end page: 400
+current page: 319, end page: 350
+current page: 369, end page: 400
+current page: 18, end page: 50
+current page: 320, end page: 350
+current page: 370, end page: 400
+current page: 19, end page: 50
+current page: 321, end page: 350
+current page: 371, end page: 400
+current page: 20, end page: 50
+current page: 322, end page: 350
+current page: 372, end page: 400
+current page: 323, end page: 350
+current page: 21, end page: 50
+current page: 373, end page: 400
+current page: 324, end page: 350
+current page: 22, end page: 50
+current page: 374, end page: 400
+current page: 325, end page: 350
+current page: 23, end page: 50
+current page: 375, end page: 400
+current page: 24, end page: 50
+current page: 326, end page: 350
+current page: 376, end page: 400
+current page: 25, end page: 50
+current page: 327, end page: 350
+current page: 377, end page: 400
+current page: 26, end page: 50
+current page: 328, end page: 350
+current page: 378, end page: 400
+current page: 27, end page: 50
+current page: 329, end page: 350
+current page: 379, end page: 400
+current page: 28, end page: 50
+current page: 330, end page: 350
+current page: 29, end page: 50
+current page: 380, end page: 400
+current page: 331, end page: 350
+current page: 30, end page: 50
+current page: 381, end page: 400
+current page: 332, end page: 350
+current page: 31, end page: 50
+current page: 382, end page: 400
+current page: 333, end page: 350
+current page: 32, end page: 50
+current page: 334, end page: 350
+current page: 383, end page: 400
+current page: 33, end page: 50
+current page: 335, end page: 350
+current page: 384, end page: 400
+current page: 34, end page: 50
+current page: 385, end page: 400
+current page: 336, end page: 350
+current page: 35, end page: 50
+current page: 386, end page: 400
+current page: 337, end page: 350
+current page: 36, end page: 50
+current page: 387, end page: 400
+current page: 338, end page: 350
+current page: 388, end page: 400
+current page: 37, end page: 50
+current page: 339, end page: 350
+current page: 389, end page: 400
+current page: 38, end page: 50
+current page: 340, end page: 350
+current page: 390, end page: 400
+current page: 39, end page: 50
+current page: 341, end page: 350
+current page: 391, end page: 400
+current page: 40, end page: 50
+current page: 342, end page: 350
+current page: 392, end page: 400
+current page: 41, end page: 50
+current page: 343, end page: 350
+current page: 393, end page: 400
+current page: 42, end page: 50
+current page: 344, end page: 350
+current page: 43, end page: 50
+current page: 394, end page: 400
+current page: 345, end page: 350
+current page: 44, end page: 50
+current page: 395, end page: 400
+current page: 346, end page: 350
+current page: 45, end page: 50
+current page: 396, end page: 400
+current page: 46, end page: 50
+current page: 347, end page: 350
+current page: 397, end page: 400
+current page: 47, end page: 50
+current page: 398, end page: 400
+current page: 348, end page: 350
+current page: 48, end page: 50
+current page: 349, end page: 350
+current page: 399, end page: 400
+current page: 350, end page: 350
+current page: 400, end page: 400
+current page: 49, end page: 50
+result size: 2952
+thread time 10
+result size: 2958
+thread time 10
+current page: 50, end page: 50
+result size: 2986
+thread time 11
