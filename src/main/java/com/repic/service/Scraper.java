@@ -1,22 +1,26 @@
-package com.repic;
+package com.repic.service;
 
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.repic.Item;
 
+@Component
 public class Scraper {
 	
-	private List<String> results = Collections.synchronizedList(new ArrayList<>());
+	private static List<String> results = Collections.synchronizedList(new ArrayList<>());
 	
-	public void scrapeNekretnineRS(int numberOfThreads) {
+	public List<String> scrapeNekretnineRS(int numberOfThreads) {
 		
 		Integer totalItems;
 		Integer totalPages;
@@ -44,10 +48,7 @@ public class Scraper {
 					int startPage = i * div + 1;
 					int endPage = i * div + div;
 					Thread thread = new Thread(() -> {
-						long start = System.nanoTime();
-						scrapePage(startPage, endPage, searchUrl, client, results);
-						long end = System.nanoTime();
-						System.out.println("thread time " + (end - start) / 1000000000);
+						scrapePages(startPage, endPage, searchUrl, client, results);
 					});
 					threads.add(thread);
 				}
@@ -65,26 +66,30 @@ public class Scraper {
 			  
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
+		return results;
 	}
 		
-	private static void scrapePage(int startPage, int endPage, String searchUrl, WebClient client, List<String> results) {
+	private static void scrapePages(int startPage, int endPage, String searchUrl, WebClient client, List<String> results) {
 		try {
+			
 		  int currentPage = startPage;	
 		  searchUrl = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/" + currentPage + "/";
-		  //System.out.println("SEARCH URL ---------------------->" + searchUrl);
+		  
 		  HtmlPage page = client.getPage(searchUrl);
 		  
 		  while (currentPage <= endPage) {
-			  System.out.println("current page: " + currentPage + ", end page: " + endPage);
 			  List<HtmlElement> items = (List<HtmlElement>) (Object) page.getByXPath("//div[@class='row offer']") ;
-			  if(items.isEmpty()){
-					System.out.println("breaking...");
-					break;
-			  }else{
+			//  if(items.isEmpty()){
+			//		System.out.println("breaking...");
+			//		break;
+			//  }else{
 					for(HtmlElement htmlItem : items){
 						HtmlElement spanArea = ((HtmlElement) htmlItem.getFirstByXPath(".//p[@class='offer-price offer-price--invert']/span"));
 						HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//p[@class='offer-price']/span")) ;
+						HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='mt-1 mb-1 mt-lg-0 mb-lg-0 d-md-block offer-meta-info offer-adress']")) ;
+						HtmlElement spanLocation = ((HtmlElement) htmlItem.getFirstByXPath(".//p[@class='offer-location text-truncate']")) ;
 						
 						// It is possible that an item doesn't have area, we set the area to 0.0 in this case
 						String itemArea = spanArea == null ? "0.0" : spanArea.asText() ;
@@ -92,50 +97,55 @@ public class Scraper {
 						// It is possible that an item doesn't have any price, we set the price to 0.0 in this case
 						String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText() ;
 						
+						String itemDate = spanDate == null ? "" : spanDate.asText();
+						
+						String itemLocation = spanLocation == null ? "" : spanLocation.asText();
+					
 						Item item = new Item();
-						synchronized(results) {
 						itemArea = itemArea.replace(" ", "");
 						itemArea = itemArea.replace("---", "0");
 						itemArea = itemArea.replace("m2", "");
+						if (itemArea.equals("0")) continue;
 						item.setArea(new BigDecimal(itemArea));
 						
 						itemPrice = itemPrice.replace("---", "0");
 						itemPrice = itemPrice.replace("EUR", "");
 						itemPrice = itemPrice.replace(" ", "");
-						itemPrice = itemPrice.replace("Po dogovoru", "");	
+						itemPrice = itemPrice.replace("Po dogovoru", "");
+						if (itemPrice.equals("0")) continue;
 						item.setPrice(new BigDecimal(itemPrice));
+						
+						itemDate = itemDate.substring(0, 10).replace(".", "/");
+						
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						LocalDate dateTime = LocalDate.parse(itemDate, formatter);
 					
+						item.setDate(dateTime);
+						
+						itemLocation = itemLocation.replace(", Beograd, Srbija", "");						
+						item.setLocation(itemLocation);
 						
 						ObjectMapper mapper = new ObjectMapper();
 						String jsonString = mapper.writeValueAsString(item);
-						
-							results.add(jsonString);
-						}
-						//System.out.println(jsonString);
+						synchronized(results) {
+						results.add(jsonString);}
 					}
-					currentPage++;
-			  }
+					synchronized(results) {
+						currentPage++;}
+			  //}
 		  }
 		}catch(Exception e){
 		  e.printStackTrace();
+		  System.exit(0);
 		}
-		//System.out.println(results);
-synchronized(results) {
-		System.out.println("result size: " + results.size());
-}
 	}
-	public static void main(String[] args) {
-		PrintStream originalOut = System.out;
-		PrintStream fileOut;
-		try {
-			fileOut = new PrintStream("/home/petar/out.txt");
-			System.setOut(fileOut);
-			Scraper s = new Scraper();
-			s.scrapeNekretnineRS(10);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	/*
+	 * public static void main(String[] args) { PrintStream originalOut =
+	 * System.out; PrintStream fileOut; try { fileOut = new
+	 * PrintStream("/home/petar/out.txt"); System.setOut(fileOut); Scraper s = new
+	 * Scraper(); s.scrapeNekretnineRS(10); } catch (FileNotFoundException e) {
+	 * e.printStackTrace(); System.exit(0); }
+	 * 
+	 * }
+	 */
 }
