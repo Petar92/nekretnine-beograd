@@ -1,4 +1,4 @@
-package com.repic.service;
+package com.repic.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,12 +13,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.repic.Item;
+import com.repic.service.ItemService;
 
 @Component
 public class Scraper {
 	
-	private static List<String> results = Collections.synchronizedList(new ArrayList<>());
+	private List<String> results = Collections.synchronizedList(new ArrayList<>());
+	private ItemService itemService;
+	
+	public Scraper(ItemService itemService) {
+		this.itemService = itemService;
+	}
 	
 	public List<String> scrapeNekretnineRS(int numberOfThreads) {
 		
@@ -71,7 +76,7 @@ public class Scraper {
 		return results;
 	}
 		
-	private static void scrapePages(int startPage, int endPage, String searchUrl, WebClient client, List<String> results) {
+	private void scrapePages(int startPage, int endPage, String searchUrl, WebClient client, List<String> results) {
 		try {
 			
 		  int currentPage = startPage;	
@@ -128,7 +133,10 @@ public class Scraper {
 						ObjectMapper mapper = new ObjectMapper();
 						String jsonString = mapper.writeValueAsString(item);
 						synchronized(results) {
-						results.add(jsonString);}
+							itemService.addItem(item);
+							System.out.println("added to database...");
+							results.add(jsonString);
+						}
 					}
 					synchronized(results) {
 						currentPage++;}
