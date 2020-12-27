@@ -27,7 +27,7 @@ public class Scraper {
 	
 	public List<String> scrapeNekretnineRS(int numberOfThreads) {
 		
-		Integer totalItems;
+		//Integer totalItems;
 		Integer totalPages;
 		
 		WebClient client = new WebClient();  
@@ -36,7 +36,7 @@ public class Scraper {
 				
 		try {
 			  String searchUrl = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/";
-			  HtmlPage page = client.getPage(searchUrl);
+			  //HtmlPage page = client.getPage(searchUrl);
 			  
 			 // HtmlElement totalElements = ((HtmlElement) page.getFirstByXPath(".//a[@class='radio filter-radio active']/span"));
 			  
@@ -78,13 +78,10 @@ public class Scraper {
 		
 	private void scrapePages(int startPage, int endPage, String searchUrl, WebClient client, List<String> results) {
 		try {
-			
-		  int currentPage = startPage;	
-		  searchUrl = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/" + currentPage + "/";
-		  
-		  HtmlPage page = client.getPage(searchUrl);
-		  
-		  while (currentPage <= endPage) {
+		  while (startPage <= endPage) {
+			  searchUrl = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/" + startPage + "/";
+			  HtmlPage page = client.getPage(searchUrl);
+			  synchronized(results) {
 			  List<HtmlElement> items = (List<HtmlElement>) (Object) page.getByXPath("//div[@class='row offer']") ;
 			//  if(items.isEmpty()){
 			//		System.out.println("breaking...");
@@ -97,7 +94,7 @@ public class Scraper {
 						HtmlElement spanLocation = ((HtmlElement) htmlItem.getFirstByXPath(".//p[@class='offer-location text-truncate']")) ;
 						
 						// It is possible that an item doesn't have area, we set the area to 0.0 in this case
-						String itemArea = spanArea == null ? "0.0" : spanArea.asText() ;
+						String itemArea = spanArea == null ? "0.0" : spanArea.asText();
 						
 						// It is possible that an item doesn't have any price, we set the price to 0.0 in this case
 						String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText() ;
@@ -132,15 +129,13 @@ public class Scraper {
 						
 						ObjectMapper mapper = new ObjectMapper();
 						String jsonString = mapper.writeValueAsString(item);
-						synchronized(results) {
+						
 							itemService.addItem(item);
 							System.out.println("added to database...");
 							results.add(jsonString);
 						}
-					}
-					synchronized(results) {
-						currentPage++;}
-			  //}
+					startPage++;
+				}
 		  }
 		}catch(Exception e){
 		  e.printStackTrace();
