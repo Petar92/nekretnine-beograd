@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,9 @@ import com.repic.Item;
 public class Scraper {
 	
 	private static List<String> results = Collections.synchronizedList(new ArrayList<>());
+	
+	@Autowired
+	static ItemService itemService;
 	
 	public List<String> scrapeNekretnineRS(int numberOfThreads) {
 		
@@ -33,13 +37,13 @@ public class Scraper {
 			  String searchUrl = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/";
 			  HtmlPage page = client.getPage(searchUrl);
 			  
-			  HtmlElement totalElements = ((HtmlElement) page.getFirstByXPath(".//a[@class='radio filter-radio active']/span"));
+			 // HtmlElement totalElements = ((HtmlElement) page.getFirstByXPath(".//a[@class='radio filter-radio active']/span"));
 			  
-			  String te = totalElements.asText();
-			  te = te.replace("(", "");
-			  te = te.replace(")", "");
-			  totalItems = Integer.parseInt(te);
-			  System.out.println("total items " + totalItems);
+			  //String te = totalElements.asText();
+			  //te = te.replace("(", "");
+			 // te = te.replace(")", "");
+			 // totalItems = Integer.parseInt(te);
+			 // System.out.println("total items " + totalItems);
 			  totalPages = 500; //(int) Math.ceil(totalItems / 20.0);
 			  
 			  List<Thread> threads = new ArrayList<>();
@@ -128,7 +132,10 @@ public class Scraper {
 						ObjectMapper mapper = new ObjectMapper();
 						String jsonString = mapper.writeValueAsString(item);
 						synchronized(results) {
-						results.add(jsonString);}
+							//results.add(jsonString);
+							System.out.println("TEST TEST TEST " + item.getLocation());
+							itemService.addItem(item);
+						}
 					}
 					synchronized(results) {
 						currentPage++;}

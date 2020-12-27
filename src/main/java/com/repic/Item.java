@@ -3,13 +3,28 @@ package com.repic;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Item {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long id;
 	private BigDecimal area;
 	private BigDecimal price ;
 	private LocalDate date;
 	private String location;
-	
+		
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public BigDecimal getPrice() {
 		return price;
 	}
