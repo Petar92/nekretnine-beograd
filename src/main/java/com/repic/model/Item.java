@@ -1,4 +1,4 @@
-package com.repic;
+package com.repic.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,21 +10,21 @@ import javax.persistence.Id;
 
 @Entity
 public class Item {
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private BigDecimal area;
 	private BigDecimal price ;
 	private LocalDate date;
 	private String location;
-		
-	public long getId() {
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public BigDecimal getPrice() {
 		return price;
 	}

@@ -4,23 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.repic.Item;
+import com.repic.model.Item;
 
+@Component
 public class ItemService {
-	
-	@Autowired
+
 	private ItemRepository itemRepository;
 	
-	public List<Item> getAllItems() {
+	public ItemService(ItemRepository itemRepository) {
+		this.itemRepository = itemRepository;
+	}
+	
+	public List<Item> getAll() {
 		List<Item> items = new ArrayList<>();
-		itemRepository.findAll()
-					  .forEach(items::add);
+		itemRepository.findAll().forEach(items::add);
 		return items;
 	}
 	
-	public Optional<Item> getItem(long id) {
+	public Optional<Item> getItem(Long id) {
 		return itemRepository.findById(id);
 	}
 	
@@ -32,7 +35,7 @@ public class ItemService {
 		itemRepository.save(item);
 	}
 	
-	public void deleteItem(long id) {
+	public void deleteItem(Long id) {
 		itemRepository.deleteById(id);
 	}
 
